@@ -3,7 +3,6 @@ import { useAccount, useNetwork, useEnsName, useContractReads } from 'wagmi';
 import Post from './Post.js';
 
 import contracts from '../contracts.js';
-import factoryABI from '../PostV1Factory.json';
 import postABI from '../PostV1.json';
 
 export default function RootPost({ address }) {
