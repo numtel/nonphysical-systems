@@ -1,24 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import '@rainbow-me/rainbowkit/styles.css';
+
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
+import { configureChains, createClient, WagmiConfig, useAccount, useNetwork } from 'wagmi';
+import { mainnet, polygon, polygonMumbai, optimism, avalanche } from 'wagmi/chains';
+import { publicProvider } from 'wagmi/providers/public';
+
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+
+// TODO add type() view function to instruct frontend type()="PostV1"
+import RootPost from './components/RootPost.js';
+import contracts from './contracts.js';
+
+const { chains, provider } = configureChains(
+  [polygonMumbai, mainnet, /*polygon,  optimism, avalanche*/],
+  [
+    publicProvider()
+  ]
+);
+
+const { connectors } = getDefaultWallets({
+  appName: 'Nonphysical Systems',
+  projectId: '44479b5147daf20eefae164e00f9d8ac',
+  chains
+});
+
+const wagmiClient = createClient({
+  autoConnect: true,
+  connectors,
+  provider
+});
+
 
 function App() {
+  const { chain } = useNetwork();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider chains={chains}>
+        <ConnectButton chainStatus="none"></ConnectButton>
+        { chain && chain.id !== 80001 && (<p>Invalid chain!</p>)}
+        <RootPost address={contracts.root}></RootPost>
+      </RainbowKitProvider>
+    </WagmiConfig>
   );
 }
 
