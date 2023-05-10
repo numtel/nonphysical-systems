@@ -1,3 +1,4 @@
+import {Buffer} from 'buffer';
 import '@rainbow-me/rainbowkit/styles.css';
 
 import {
@@ -12,7 +13,9 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 // TODO add type() view function to instruct frontend type()="PostV1"
 import RootPost from './components/RootPost.js';
-import contracts from './contracts.js';
+import {contracts, interfaces} from './contracts.js';
+
+window.Buffer = window.Buffer || Buffer;
 
 const { chains, provider } = configureChains(
   [polygonMumbai, mainnet, /*polygon,  optimism, avalanche*/],
@@ -41,7 +44,7 @@ function App() {
       <RainbowKitProvider chains={chains}>
         <ConnectButton chainStatus="none"></ConnectButton>
         { chain && chain.id !== 80001 && (<p>Invalid chain!</p>)}
-        <RootPost address={contracts.root}></RootPost>
+        <RootPost contract={contracts.root}></RootPost>
       </RainbowKitProvider>
     </WagmiConfig>
   );

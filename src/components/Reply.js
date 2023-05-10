@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useContractWrite, usePrepareContractWrite } from 'wagmi';
 
-import contracts from '../contracts.js';
-import factoryABI from '../PostV1Factory.json';
+import {contracts} from '../contracts.js';
 
+// TODO allow choosing which type of post to create
 export default function Reply({ item }) {
   const [messageText, setMessageText] = useState('');
   const submitReply = async (event) => {
@@ -14,8 +14,7 @@ export default function Reply({ item }) {
     write?.();
   };
   const { config, refetch, isError } = usePrepareContractWrite({
-    address: contracts.PostV1Factory,
-    abi: factoryABI,
+    ...contracts.PostV1Factory,
     functionName: 'createNew',
     args: [ messageText, item ],
   });

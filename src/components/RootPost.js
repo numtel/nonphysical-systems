@@ -1,21 +1,21 @@
 import { useAccount, useNetwork, useEnsName, useContractReads } from 'wagmi';
 
 import Post from './Post.js';
+import {contracts, interfaces} from '../contracts.js';
 
-import contracts from '../contracts.js';
-import postABI from '../PostV1.json';
-
-export default function RootPost({ address }) {
+export default function RootPost({ contract }) {
   const toRead = [
     { // 0
-      address, abi: postABI, functionName: 'message'
+      ...contracts.PostBrowser, functionName: 'fetchReplies',
+      args: [contract.address, 0, 100, true]
     },
     { // 1
-      address, abi: postABI, functionName: 'owner'
+      ...contracts.PostBrowser, functionName: 'properties',
+      args: [contract.address]
     },
     { // 2
-      address, abi: postABI, functionName: 'fetchReplies',
-      args: [0, 0, 100, true]
+      ...contracts.PostBrowser, functionName: 'matchingInterfaces',
+      args: [contract.address]
     },
   ];
   const { status, data, isError, isLoading } = useContractReads({
@@ -27,9 +27,9 @@ export default function RootPost({ address }) {
   });
   return (<>
       { isLoading ? (<p>Loading</p>)
-      : isError ? (<p>Error!</p>)
+      : isError || data[0] === null ? (<p>Error!</p>)
       : (<>
-        <Post item={address} message={data[0]} owner={data[1]} status={0} replies={data[2][0]}></Post>
+        <Post item={contract.address} status={0} replies={data[0].items} properties={data[1]} matchingInterfaces={data[2]}></Post>
       </>)}
   </>);
 }

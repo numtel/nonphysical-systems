@@ -1,7 +1,18 @@
+import factoryABI from './PostV1Factory.json';
+import browserABI from './PostBrowser.json';
+import postABI from './PostV1.json';
 
-const contracts = {
-  PostV1Factory: '0xf35ef37160b2e5e48859cfd0dc63c621d5aab1f8',
-  root: '0x3f68f0da99bd5e4e216a7c32d1ad35a0d96620dc',
+export const contracts = {
+  PostV1Factory: {address: '0xb52a4E0e51b21a53DD93bB02fB6f08E4Da03F02B', abi: factoryABI},
+  PostBrowser: {address: '0xd38321319b7bfb540a4549769cbe5bfd68a6abe9', abi: browserABI},
+  root: {address: '0x3E8b03679A3eb0958214c5ebA72E2beca18E49A0', abi: postABI},
 };
 
-export default contracts;
+// This is the only reference to the files in the src/interfaces/ directory
+export const interfaces = {
+  "0xe507d13a": "IAllowReplies",
+  "0x39d77e9a": "IAllowRepliesStatus",
+  "0xd0452e3f": "IMessage",
+  "0x9aba4139": "IMessageEditable"
+};
+
