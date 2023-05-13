@@ -4,7 +4,7 @@ import postABI from './PostV1.json';
 
 export const contracts = {
   PostV1Factory: {address: '0xb52a4E0e51b21a53DD93bB02fB6f08E4Da03F02B', abi: factoryABI},
-  PostBrowser: {address: '0xd38321319b7bfb540a4549769cbe5bfd68a6abe9', abi: browserABI},
+  PostBrowser: {address: '0x78735704742cc88eea881d5a7da5766a84f79160', abi: browserABI},
   root: {address: '0x3E8b03679A3eb0958214c5ebA72E2beca18E49A0', abi: postABI},
 };
 
